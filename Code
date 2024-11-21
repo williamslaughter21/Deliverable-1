@@ -1,0 +1,54 @@
+// C++ code
+//
+
+#define echoPin 2 // attach pin D2 Arduino to pin Echo of HC-SR04
+#define trigPin 3 //attach pin D3 Arduino to pin Trig of HC-SR04
+
+
+
+long duration; //variable for the duration of sound wave travel
+int distance; //variable for the distance measurement
+int motor1 = 11;
+int motor2 = 7;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(trigPin, OUTPUT); //Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); //Sets the echoPin as an INPUT
+  Serial.begin(9600); // Serial Communication is starting with 9600 of baudrate speed
+
+}
+
+void loop() {
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  digitalWrite(7, HIGH);//Activiates motor 1
+  digitalWrite(11, HIGH);// Activiates motor 2
+
+
+  //Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+
+  //Calculating the distance
+  distance =  duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  //analogWrite(11,255);
+  if(distance < 200)
+  {
+    digitalWrite(7, LOW);//Motors should stop
+    digitalWrite(11,LOW);//Motors should stop
+    
+  }
+  else
+  {
+    digitalWrite(7, HIGH);//Motors keep going
+    digitalWrite(11,HIGH);//Motors keep going
+  }
+}
